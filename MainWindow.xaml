@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PolarisBiosEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Polaris BIOS Editor" Height="355.5" Width="513" ResizeMode="CanMinimize">
+        Title="Polaris BIOS Editor" Height="359.197" Width="678.736" ResizeMode="CanMinimize">
 
     <Grid x:Name="LayoutRoot" Background="White" Margin="0,0,0,0">
 
@@ -101,6 +101,19 @@
                 </Grid>
             </Grid>
         </GroupBox>
-
+        <GroupBox x:Name="boxFan" Header="FAN CONTROL" FontSize="10" Margin="496,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="152" Height="189">
+            <Grid>
+                <TextBlock Text="TARGET TEMP (C)" Margin="10,0,0,0" FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <TextBox x:Name="txtTargetTemp" Text="" Margin="10,14,10,0" VerticalAlignment="Top" TextAlignment="Center" />
+                <TextBlock Text="TARGET FANSPEED (RPM)" Margin="10,32,0,0" FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <TextBox x:Name="txtFanspeedRPM" Text="" Margin="10,46,10,0" VerticalAlignment="Top" TextAlignment="Center" />
+                <TextBlock Text="MIN FANSPEED (%)" Margin="10,66,0,0" FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                <TextBox x:Name="txtMinFanspeed" Text="" Margin="10,79,10,0" TextAlignment="Center" Height="15" VerticalAlignment="Top" />
+                <TextBlock Text="MAX FANSPEED (%)" FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,99,0,0" />
+                <TextBox x:Name="txtMaxFanspeed" Text="" Margin="10,112,10,0" VerticalAlignment="Top" TextAlignment="Center" />
+                <TextBlock Text="HYSTERESIS TEMP (C)" FontSize="10" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,132,0,0" />
+                <TextBox x:Name="txtHysteresisTemp" Text="" Margin="10,145,10,0" VerticalAlignment="Top" TextAlignment="Center" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>

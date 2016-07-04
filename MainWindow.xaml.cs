@@ -19,6 +19,7 @@ namespace PolarisBiosEditor
         int headerPointer = 0;
         int dataPointer = 0;
         int powerPointer = 0;
+        int fanOffset = 0;
         int limitOffset = 0;
         int maxFreqOffset = 0x17;
         int vidOffset = 0;
@@ -38,7 +39,7 @@ namespace PolarisBiosEditor
         public MainWindow()
         {
             InitializeComponent();
-            MainWindow.GetWindow(this).Title += " 1.1";
+            MainWindow.GetWindow(this).Title += " 1.2";
 
             save.IsEnabled = false;
             boxInfo.IsEnabled = false;
@@ -68,6 +69,12 @@ namespace PolarisBiosEditor
                 tableGPU.Items.Clear();
                 tableMEM.Items.Clear();
 
+                txtTargetTemp.Clear();
+                txtFanspeedRPM.Clear();
+                txtMinFanspeed.Clear();
+                txtMaxFanspeed.Clear();
+                txtHysteresisTemp.Clear();
+
                 System.IO.Stream fileStream = openFileDialog.OpenFile();
 
                 using (BinaryReader br = new BinaryReader(fileStream)) {
@@ -78,6 +85,7 @@ namespace PolarisBiosEditor
                     headerPointer = getValueAtPosition(16, 0x48);
                     dataPointer = getValueAtPosition(16, headerPointer + 0x20);
                     powerPointer = getValueAtPosition(16, dataPointer + 0x22);
+                    fanOffset = getValueAtPosition(16, powerPointer + 0x25);
                     limitOffset = getValueAtPosition(16, powerPointer + 0x39) + 0x01;
                     maxFreqOffset = 0x17;
 
@@ -97,8 +105,6 @@ namespace PolarisBiosEditor
 
                     if (!supportedDeviceID.Contains(deviceID)) {
                         MessageBox.Show("Unsupported BIOS (0x" + deviceID + ")", "WARNING", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    //} else if (dpmEntryCount != vidEntryCount) {
-                    //    MessageBox.Show("Invalid DPM/VID entries!", "WARNING", MessageBoxButton.OK, MessageBoxImage.Warning);
                     } else {
                         txtTDP.Text = getValueAtPosition(16, powerPointer + limitOffset).ToString();
                         txtTDC.Text = getValueAtPosition(16, powerPointer + limitOffset + 0x04).ToString();
@@ -107,6 +113,12 @@ namespace PolarisBiosEditor
 
                         txtMaxGPU.Text = getValueAtPosition(24, powerPointer + maxFreqOffset, true).ToString();
                         txtMaxMEM.Text = getValueAtPosition(24, powerPointer + maxFreqOffset + 0x04, true).ToString();
+
+                        txtHysteresisTemp.Text = getValueAtPosition(8, powerPointer + fanOffset + 0x01).ToString();
+                        txtMaxFanspeed.Text = getValueAtPosition(16, powerPointer + fanOffset + 0x11).ToString();
+                        txtFanspeedRPM.Text = getValueAtPosition(16, powerPointer + fanOffset + 0x15).ToString();
+                        txtTargetTemp.Text = getValueAtPosition(8, powerPointer + fanOffset + 0x1B).ToString();
+                        txtMinFanspeed.Text = getValueAtPosition(8, powerPointer + fanOffset + 0x1C).ToString();
 
                         tableGPU.Items.Clear();
                         for (var i = 0; i < dpmEntryCount; i++) {
@@ -220,6 +232,12 @@ namespace PolarisBiosEditor
 
                 setValueAtPosition(txtMaxGPU.Text, 24, powerPointer + maxFreqOffset, true);
                 setValueAtPosition(txtMaxMEM.Text, 24, powerPointer + maxFreqOffset + 0x04, true);
+
+                setValueAtPosition(txtHysteresisTemp.Text, 8, powerPointer + fanOffset + 0x01);
+                setValueAtPosition(txtMaxFanspeed.Text, 16, powerPointer + fanOffset + 0x11);
+                setValueAtPosition(txtFanspeedRPM.Text, 16, powerPointer + fanOffset + 0x15);
+                setValueAtPosition(txtTargetTemp.Text, 8, powerPointer + fanOffset + 0x1B);
+                setValueAtPosition(txtMinFanspeed.Text, 8, powerPointer + fanOffset + 0x1C);
 
                 for (var i = 0; i < dpmEntryCount; i++) {
                     var container = tableGPU.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;

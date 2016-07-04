@@ -1,5 +1,14 @@
-# PolarisBiosEditor v1.1
-![PREVIEW](http://puu.sh/pO6PO/7e4b6ecce1.png)
+# PolarisBiosEditor v1.2
+![PREVIEW](http://fs5.directupload.net/images/160704/6ilbfm5w.jpg)
+
+### v1.2
+- Updated GUI
+- Fan controls
+  - Target Temperature
+  - Target Fanspeed
+  - Min Fanspeed
+  - Max Fanspeed
+  - Hysteresis
 
 ### v1.1
 - Updated GUI
